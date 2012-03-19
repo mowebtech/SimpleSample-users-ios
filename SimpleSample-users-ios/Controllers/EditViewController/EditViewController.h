@@ -15,14 +15,16 @@
 {
     UsersViewController* mainController;
     QBUUser* user;
-    UITextField* loginField;
+    UITextField* oldPasswordField;
+    UITextField* setPasswordField;
     UITextField* fullNameField;
     UITextField* phoneField;
     UITextField* emailField;
     UITextField* websiteField;
 }
 @property (nonatomic, assign) QBUUser* user;
-@property (nonatomic, retain) IBOutlet UITextField* loginField;
+@property (nonatomic, retain) IBOutlet UITextField* oldPasswordField;
+@property (nonatomic, retain) IBOutlet UITextField* setPasswordField;
 @property (nonatomic, retain) IBOutlet UITextField* fullNameField;
 @property (nonatomic, retain) IBOutlet UITextField* phoneField;
 @property (nonatomic, retain) IBOutlet UITextField* emailField;
