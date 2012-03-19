@@ -37,6 +37,7 @@
 		8ABBD3AD1511175D00713E25 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABBD3AC1511175D00713E25 /* MobileCoreServices.framework */; };
 		8ABBD3AF1511176A00713E25 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABBD3AE1511176A00713E25 /* CoreLocation.framework */; };
 		8ABBD3B11511177000713E25 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABBD3B01511177000713E25 /* libz.dylib */; };
+		FA7E68F7151728F400D60A2A /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA7E68F6151728F400D60A2A /* Quickblox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		8ABBD3AC1511175D00713E25 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		8ABBD3AE1511176A00713E25 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8ABBD3B01511177000713E25 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		FA7E68F6151728F400D60A2A /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quickblox.framework; path = "../../SDK-ios/Framework/build/Framework/Quickblox.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 				8ABBD3AB1511175700713E25 /* SystemConfiguration.framework in Frameworks */,
 				8ABBD34A151115E500713E25 /* UIKit.framework in Frameworks */,
 				8ABBD34C151115E500713E25 /* Foundation.framework in Frameworks */,
+				FA7E68F7151728F400D60A2A /* Quickblox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				8ABBD3B01511177000713E25 /* libz.dylib */,
+				FA7E68F6151728F400D60A2A /* Quickblox.framework */,
 				8A77D48C1511F599001F8981 /* CFNetwork.framework */,
 				8ABBD3AE1511176A00713E25 /* CoreLocation.framework */,
 				8ABBD3AC1511175D00713E25 /* MobileCoreServices.framework */,
@@ -397,6 +401,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../SDK-ios/Framework/build/Framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleSample-users-ios/Supporting Files/SimpleSample-users-ios-Prefix.pch";
@@ -413,6 +418,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../SDK-ios/Framework/build/Framework\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleSample-users-ios/Supporting Files/SimpleSample-users-ios-Prefix.pch";

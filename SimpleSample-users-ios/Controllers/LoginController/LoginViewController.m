@@ -48,7 +48,7 @@
     qbUser.login = login.text;
 	qbUser.password = password.text;
     
-    // authenticate
+    // authenticate user
     [QBUsersService authenticateUser:qbUser delegate:self];
     
     [qbUser release];

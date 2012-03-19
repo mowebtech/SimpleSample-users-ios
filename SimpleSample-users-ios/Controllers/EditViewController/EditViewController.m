@@ -50,7 +50,7 @@
         if (result.success)
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil 
-                                                            message:@"Edit finished successfully" 
+                                                            message:@"User was edit successfully" 
                                                            delegate:nil 
                                                   cancelButtonTitle:@"Okay" 
                                                   otherButtonTitles:nil, nil];
@@ -65,6 +65,7 @@
 - (void)update:(id)sender
 {
     user = mainController.currentUser;
+    
     if ([loginField.text length] != 0) 
     {
         user.login = loginField.text;
@@ -84,6 +85,8 @@
     {
         user.website = websiteField.text;
     }
+    
+    // update user
     [QBUsersService editUser:user delegate:self];
 }
 

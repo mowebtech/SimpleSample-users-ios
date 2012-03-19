@@ -82,6 +82,7 @@
 - (void) searchUsersData:(NSTimer *) timer{
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
+    // retrieve 50 users
     PagedRequest* request = [[PagedRequest alloc] init];
     request.perPage = 50;
 	[QBUsersService getUsersWithPagedRequest:request delegate:self];
@@ -98,10 +99,11 @@
             [messages removeAllObjects];
             [messages addObjectsFromArray:usersSearchRes.users];
             [myTableView reloadData];
-            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         }
-    } else
-    if([result isKindOfClass:[QBUUserResult class]])
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        
+    } else if([result isKindOfClass:[QBUUserResult class]])
     {
         if (result.success)
         {
@@ -111,8 +113,10 @@
             [messages addObject:userSearchRes.user];
             [myTableView reloadData];
         }
-    }
-    if([result isKindOfClass:[QBUUserLogoutResult class]])
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    
+    }else if([result isKindOfClass:[QBUUserLogoutResult class]])
     {
         if (result.success)
         {
@@ -171,7 +175,10 @@
 
     if ([textField.text length] != 0)
     {
-        [QBUsersService getUserWithLogin:textField.text delegate:self];
+        // search user by login
+        [QBUsersService getUserWithLogin:textField.text delegate:self]; 
+        
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     }
 }
 
@@ -202,10 +209,13 @@
 {
     textField.text = nil; 
     
+    // retrieve 50 users
     PagedRequest* request = [[PagedRequest alloc] init];
     request.perPage = 50;
     [QBUsersService getUsersWithPagedRequest:request delegate:self];
     [request release];
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 }
 
 
@@ -230,7 +240,5 @@
 {
     [textField resignFirstResponder];
 }
-
-
 
 @end

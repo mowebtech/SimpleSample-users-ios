@@ -32,7 +32,9 @@
 
 - (void) viewDidLoad
 {
+    // auth app
     [QBAuthService authorizeAppId:appID key:authKey secret:authSecret delegate:self];
+    
     [super viewDidLoad];
 }
 
@@ -55,11 +57,29 @@
     
     if([result isKindOfClass:[QBAAuthSessionCreationResult class]]){
         if(result.success){
-         [self performSelector:@selector(hideSplash) withObject:nil afterDelay:2];
+            [self performSelector:@selector(hideSplash) withObject:nil afterDelay:2];
         }else{
-            //[self processErrors:result.errors];
+            [self processErrors:result.errors];
         }
     }
+}
+
+-(void)processErrors:(NSArray *)errors{
+	NSMutableString *errorsString = [NSMutableString stringWithCapacity:0];
+	
+	for(NSString *error in errors){
+		[errorsString appendFormat:@"%@\n", error];
+	}
+	
+	if ([errorsString length] > 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", "") 
+                                                        message:errorsString 
+                                                       delegate:nil 
+                                              cancelButtonTitle:NSLocalizedString(@"OK", "") 
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+	}
 }
 
 @end
