@@ -1,0 +1,14 @@
+This sample demonstrates how to work Users QuickBlox services.
+
+It allows to see all users, their details, create user, search users, edit current user, sign in, sign out.
+
+It shows how to:
+- Retrieve all users
+- Get users’ details
+- Edit user’s parameters
+- Search users
+- Sign Up, Sign In/Sign out
+
+Sample description - http://quickblox.com/samples/simplesample-users-ios/
+
+Wiki docs - http://wiki.quickblox.com/SimpleSample-users-ios

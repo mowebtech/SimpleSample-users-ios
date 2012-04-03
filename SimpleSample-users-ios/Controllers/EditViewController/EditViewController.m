@@ -14,13 +14,14 @@
 
 @implementation EditViewController
 
-@synthesize user, loginField, fullNameField, phoneField, emailField, websiteField, mainController;
+@synthesize user, oldPasswordField, setPasswordField, fullNameField, phoneField, emailField, websiteField, mainController;
 
 
 -(void)dealloc
 {
+    [oldPasswordField release];
+    [setPasswordField release];
     [mainController release];
-    [loginField release];
     [fullNameField release];
     [phoneField release];
     [emailField release];
@@ -30,7 +31,8 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [loginField resignFirstResponder];
+    [oldPasswordField resignFirstResponder];
+    [setPasswordField resignFirstResponder];
     [fullNameField resignFirstResponder];
     [phoneField resignFirstResponder];
     [emailField resignFirstResponder];
@@ -65,6 +67,16 @@
         }else{
             NSLog(@"Errors=%@", result.errors);
         }
+        else
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                                    message:[NSString stringWithFormat:@"%@", result.errors]
+                                                    delegate:nil 
+                                                    cancelButtonTitle:@"Okay" 
+                                                    otherButtonTitles:nil, nil];
+            [alert show];
+            [alert release];
+        }
     }
 }
 
@@ -73,9 +85,10 @@
 {
     user = mainController.currentUser;
     
-    if ([loginField.text length] != 0) 
+    if ( [oldPasswordField.text length] != 0 && [setPasswordField.text length] != 0) 
     {
-        user.login = loginField.text;
+        user.oldPassword = oldPasswordField.text;
+        user.password = setPasswordField.text;
     }
     if ([fullNameField.text length] != 0) 
     {
@@ -99,6 +112,8 @@
 
 - (IBAction)back:(id)sender
 {
+    oldPasswordField.text = nil;
+    setPasswordField.text = nil;
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -121,7 +136,9 @@
 {
     [super viewWillAppear:animated];
     
-    loginField.text = mainController.currentUser.login;
+    oldPasswordField.secureTextEntry = YES;
+    setPasswordField.secureTextEntry = YES;
+    
     fullNameField.text = mainController.currentUser.fullName;
     phoneField.text = mainController.currentUser.phone;
     emailField.text = mainController.currentUser.email;

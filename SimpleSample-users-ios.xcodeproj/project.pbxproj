@@ -37,7 +37,10 @@
 		8ABBD3AD1511175D00713E25 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABBD3AC1511175D00713E25 /* MobileCoreServices.framework */; };
 		8ABBD3AF1511176A00713E25 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABBD3AE1511176A00713E25 /* CoreLocation.framework */; };
 		8ABBD3B11511177000713E25 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABBD3B01511177000713E25 /* libz.dylib */; };
+<<<<<<< HEAD
 		FA43ACF5152B8167000A2EF7 /* Quickblox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA43ACF4152B8167000A2EF7 /* Quickblox.framework */; };
+=======
+>>>>>>> 8c8e0b623b5565b5a733cf12f390b879cd8bc4e7
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,7 +86,10 @@
 		8ABBD3AC1511175D00713E25 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		8ABBD3AE1511176A00713E25 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8ABBD3B01511177000713E25 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+<<<<<<< HEAD
 		FA43ACF4152B8167000A2EF7 /* Quickblox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quickblox.framework; path = "../../../Downloads/SDK-ios/Framework/build/Framework/Quickblox.framework"; sourceTree = "<group>"; };
+=======
+>>>>>>> 8c8e0b623b5565b5a733cf12f390b879cd8bc4e7
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +105,10 @@
 				8ABBD3AB1511175700713E25 /* SystemConfiguration.framework in Frameworks */,
 				8ABBD34A151115E500713E25 /* UIKit.framework in Frameworks */,
 				8ABBD34C151115E500713E25 /* Foundation.framework in Frameworks */,
+<<<<<<< HEAD
 				FA43ACF5152B8167000A2EF7 /* Quickblox.framework in Frameworks */,
+=======
+>>>>>>> 8c8e0b623b5565b5a733cf12f390b879cd8bc4e7
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
