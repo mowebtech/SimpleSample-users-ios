@@ -41,19 +41,20 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+// User Sign Up
 - (IBAction)next:(id)sender 
 {
-	 
-    // Register user
+    // Create QuickBlox User entity
     QBUUser *user = [[QBUUser alloc] init];
     user.ownerID = ownerID;        
 	user.password = password.text;
     user.login = userName.text;
-	
-	[activityIndicator startAnimating];
     
+    // create User
 	[QBUsersService createUser:user delegate:self];
     [user release];
+    
+    [activityIndicator startAnimating];
 }
 
 - (IBAction)back:(id)sender 
@@ -65,25 +66,23 @@
 #pragma mark -
 #pragma mark ActionStatusDelegate
 
--(void)completedWithResult:(Result*)result
-{
-    if([result isKindOfClass:[QBUUserResult class]])
-    {
-		QBUUserResult *res = (QBUUserResult *)result;
+// QuickBlox API queries delegate
+-(void)completedWithResult:(Result*)result{
+    // QuickBlox User creation result
+    if([result isKindOfClass:[QBUUserResult class]]){
         
-		if(res.success)
-        {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Registration successful. Please now sign in." message:nil delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+        // Success result
+		if(result.success){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Registration was successful. Please now sign in." message:nil delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
             [alert show];
             [alert release];
-		}
-        else
-        {
-            NSLog(@"Errors=%@", result.errors);
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error happened" 
+		
+        // Errors
+        }else{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Errors" 
                                                             message:[NSString stringWithFormat:@"%@",result.errors] 
                                                            delegate:nil 
-                                                  cancelButtonTitle:@"Okay" 
+                                                  cancelButtonTitle:@"Ok" 
                                                   otherButtonTitles:nil, nil];
             [alert show];
             [alert release];

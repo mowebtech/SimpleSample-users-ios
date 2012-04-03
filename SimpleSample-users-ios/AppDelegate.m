@@ -3,7 +3,7 @@
 //  SimpleSample-users-ios
 //
 //  Created by Alexey Voitenko on 24.02.12.
-//  Copyright (c) 2012 Injoit Ltd. All rights reserved.
+//  Copyright (c) 2012 QuickBlox. All rights reserved.
 //
 
 #import "AppDelegate.h"
@@ -14,10 +14,6 @@
 @synthesize window = _window;
 @synthesize splashController;
 
--(void)completedWithResult:(Result *)result
-{
-    
-}
 
 - (void)dealloc
 {
@@ -29,13 +25,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Auth App
-    
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
-    // Override point for customization after application launch.
     
+    // Show Splash
     self.splashController = [[[SplashController alloc] initWithNibName:@"SplashController" bundle:nil] autorelease];
-    
     self.window.rootViewController = (UIViewController*)self.splashController;
     [self.window makeKeyAndVisible];
     

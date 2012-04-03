@@ -3,23 +3,18 @@
 //  SimpleSample-users-ios
 //
 //  Created by Alexey Voitenko on 24.02.12.
-//  Copyright (c) 2012 Injoit Ltd. All rights reserved.
+//  Copyright (c) 2012 QuickBlox. All rights reserved.
 //
 
 #import "UsersViewController.h"
-#import "CustomTableViewCellCell.h"
-#import "EditViewController.h"
-
 
 @implementation UsersViewController
-
 
 @synthesize loginController;
 @synthesize registrationController;
 @synthesize currentUser = _currentUser;
 @synthesize textField;
-@synthesize messages, myTableView, _cell, logout, signIn, editController, detailsController, edit;
-
+@synthesize users, myTableView, _cell, logout, signIn, editController, detailsController, edit;
 
 - (void)dealloc
 {
@@ -33,17 +28,17 @@
     [textField release];
     [loginController release];
     [registrationController release];
-    [currentUser release];
-    [messages release];
+    [_currentUser release];
+    [users release];
     [super dealloc];
 }
 
 -(id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
-    {
-        messages = [[NSMutableArray alloc] init];
+    if (self){
+        // users container
+        users = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -52,7 +47,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self searchUsersData:nil];
+    
+    // retrieve users
+    [self retrieveUsers];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -75,11 +72,8 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
-#pragma mark -
-#pragma mark GeoData
-
-- (void) searchUsersData:(NSTimer *) timer{
+// Retrieve QuickBlox Users
+- (void) retrieveUsers{
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     
     // retrieve 50 users
@@ -89,52 +83,73 @@
 	[request release];
 }
 
+// QuickBlox API queries delegate
 - (void)completedWithResult:(Result *)result
 {
+    // Retrieve Users result
     if([result isKindOfClass:[QBUUserPagedResult class]])
     {
+        // Success result
         if (result.success)
         {
+            // update table
             QBUUserPagedResult *usersSearchRes = (QBUUserPagedResult *)result;
-            [messages removeAllObjects];
-            [messages addObjectsFromArray:usersSearchRes.users];
+            [users removeAllObjects];
+            [users addObjectsFromArray:usersSearchRes.users];
             [myTableView reloadData];
+        
+        // Errors
+        }else{
+            NSLog(@"Errors=%@", result.errors); 
         }
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         
+    // Search User result
     } else if([result isKindOfClass:[QBUUserResult class]])
     {
+        // Success result
         if (result.success)
         {
+            // update table
             QBUUserResult *userSearchRes = (QBUUserResult *)result;
-            [messages removeAllObjects];
-            
-            [messages addObject:userSearchRes.user];
+            [users removeAllObjects];
+            [users addObject:userSearchRes.user];
             [myTableView reloadData];
+        
+        // Errors
+        }else{
+            NSLog(@"Errors=%@", result.errors); 
         }
         
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     
+    // User logout result
     }else if([result isKindOfClass:[QBUUserLogoutResult class]])
     {
+        // Success result
         if (result.success)
         {
             logout.hidden = YES;
             signIn.hidden = NO;
             edit.hidden = YES;
+        // Errors
+        }else{
+            NSLog(@"Errors=%@", result.errors); 
         }
     }
 }
 
 
 #pragma mark -
-#pragma mark Table View Data Source Methods
+#pragma mark TableViewDataSource & TableViewDelegate
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [textField resignFirstResponder];
-    detailsController.choosedUser = [messages objectAtIndex:[indexPath row]];
+    
+    // show user details
+    detailsController.choosedUser = [users objectAtIndex:[indexPath row]];
     [self presentModalViewController:detailsController animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -142,7 +157,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.messages count];
+    return [self.users count];
 }
 
 // Making table view using custom cells 
@@ -156,7 +171,7 @@
         [[NSBundle mainBundle] loadNibNamed:@"CustomTableViewCell" owner:self options:nil];
         cell = _cell;
     }
-    QBUUser* obtainedUser = [messages objectAtIndex:[indexPath row]];
+    QBUUser* obtainedUser = [users objectAtIndex:[indexPath row]];
     
     cell.userLogin.text = obtainedUser.login;
     cell.userName.text = obtainedUser.fullName;
@@ -168,7 +183,7 @@
     return 66;
 }
 
-// Search for user with login = textField.text if text not nil and for all users if nil
+// Search for user by login
 - (IBAction) search:(id)sender
 {
     [textField resignFirstResponder];
@@ -182,20 +197,27 @@
     }
 }
 
+// User Sign In
 - (IBAction)signIn:(id)sender
 {
+    // show User Sign In controller
     loginController.mainController = self;
     [self presentModalViewController:loginController animated:YES];
 }
 
+// User Sign Up
 - (IBAction) signUp:(id)sender
 {
-    [self presentModalViewController:registrationController animated:YES];
+    // show User Sign Up controller
+    [self presentModalViewController:(UIViewController *)registrationController animated:YES];
 }
 
+// Logout User
 - (IBAction)logout:(id)sender
 {
-    currentUser = nil;
+    self.currentUser = nil;
+    
+    // logout user
     [QBUsersService logoutUser:self];
 }
 
@@ -209,13 +231,8 @@
 {
     textField.text = nil; 
     
-    // retrieve 50 users
-    PagedRequest* request = [[PagedRequest alloc] init];
-    request.perPage = 50;
-    [QBUsersService getUsersWithPagedRequest:request delegate:self];
-    [request release];
-    
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    // retrieve users
+    [self retrieveUsers];
 }
 
 

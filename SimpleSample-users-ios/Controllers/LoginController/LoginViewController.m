@@ -41,14 +41,16 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+// User Sign In
 - (IBAction)next:(id)sender
 {
+    // Create QuickBlox User entity
     QBUUser *qbUser = [[QBUUser alloc] init];
     qbUser.ownerID = ownerID;        
     qbUser.login = login.text;
 	qbUser.password = password.text;
     
-    // authenticate user
+    // Authenticate user
     [QBUsersService authenticateUser:qbUser delegate:self];
     
     [qbUser release];
@@ -65,21 +67,18 @@
 #pragma mark -
 #pragma mark ActionStatusDelegate
 
--(void)completedWithResult:(Result *)result
-{
-    if([result isKindOfClass:[QBUUserAuthenticateResult class]])
-    {
-		QBUUserAuthenticateResult *res = (QBUUserAuthenticateResult *)result;
-		if(res.success)
-        {
-            if([self respondsToSelector:@selector(presentingViewController)])
-            {// iOS 5.0
-                [((UsersViewController *)[self presentingViewController]) setCurrentUser:[res user]];
-            }
-            else
-            {
-                [((UsersViewController *)[self parentViewController]) setCurrentUser:[res user]];
-            }
+// QuickBlox API queries delegate
+-(void)completedWithResult:(Result *)result{
+    
+    // QuickBlox User authenticate result
+    if([result isKindOfClass:[QBUUserAuthenticateResult class]]){
+		
+        // Success result
+        if(result.success){
+            
+            QBUUserAuthenticateResult *res = (QBUUserAuthenticateResult *)result;
+            
+            // save current user
             mainController.currentUser = res.user;
             
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Authentification successful" message:nil delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
@@ -89,17 +88,14 @@
             mainController.signIn.hidden = YES;
             mainController.logout.hidden = NO;
             mainController.edit.hidden = NO;
-		}
-        else 
-        if(401 == result.status)
-        {
+		
+        // Errors
+        }else if(401 == result.status){
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Authentification unsuccessful. Not registered." message:nil delegate:self cancelButtonTitle:@"Ok" otherButtonTitles: nil];
             [alert show];
             [alert release];
            
-        }
-        else
-        {
+        }else{
             NSLog(@"Errors=%@", result.errors);
         }
     }

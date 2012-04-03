@@ -3,7 +3,7 @@
 //  SimpleSample-users-ios
 //
 //  Created by Alexey Voitenko on 13.03.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 QuickBlox. All rights reserved.
 //
 
 #import "EditViewController.h"
@@ -42,26 +42,33 @@
     [sender resignFirstResponder];
 }
 
-
+// QuickBlox API queries delegate
 -(void)completedWithResult:(Result *)result
 {
+    // Edit user result
     if([result isKindOfClass:[QBUUserResult class]])
     {
+        // Success result
         if (result.success)
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle:nil 
                                                             message:@"User was edit successfully" 
                                                            delegate:nil 
-                                                  cancelButtonTitle:@"Okay" 
+                                                  cancelButtonTitle:@"Ok" 
                                                   otherButtonTitles:nil, nil];
             [alert show];
             [alert release];
             
             mainController.currentUser = user;
+        
+        // Errors
+        }else{
+            NSLog(@"Errors=%@", result.errors);
         }
     }
 }
 
+// Update user
 - (void)update:(id)sender
 {
     user = mainController.currentUser;

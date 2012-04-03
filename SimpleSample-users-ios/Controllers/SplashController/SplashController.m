@@ -32,7 +32,7 @@
 
 - (void) viewDidLoad
 {
-    // auth app
+    // QuickBlox application authorization
     [QBAuthService authorizeAppId:appID key:authKey secret:authSecret delegate:self];
     
     [super viewDidLoad];
@@ -40,6 +40,7 @@
 
 - (void)hideSplash
 {
+    // show main controller
     [self presentModalViewController:[[[UsersViewController alloc] init] autorelease] animated:YES];
 }
 
@@ -53,17 +54,26 @@
 #pragma mark -
 #pragma mark ActionStatusDelegate
 
+// QuickBlox API queries delegate
 - (void)completedWithResult:(Result *)result{
     
+    // QuickBlox application authorization result
     if([result isKindOfClass:[QBAAuthSessionCreationResult class]]){
+        
+        // Success result
         if(result.success){
+            
+            // Hide splash & show main controller
             [self performSelector:@selector(hideSplash) withObject:nil afterDelay:2];
+            
+        // Errors
         }else{
             [self processErrors:result.errors];
         }
     }
 }
 
+// Show errors
 -(void)processErrors:(NSArray *)errors{
 	NSMutableString *errorsString = [NSMutableString stringWithCapacity:0];
 	
