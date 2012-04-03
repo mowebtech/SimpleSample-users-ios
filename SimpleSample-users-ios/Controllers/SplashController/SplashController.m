@@ -66,7 +66,7 @@
             // Hide splash & show main controller
             [self performSelector:@selector(hideSplash) withObject:nil afterDelay:2];
             
-        // Errors
+        // show Errors
         }else{
             [self processErrors:result.errors];
         }
